@@ -1,0 +1,8 @@
+API request--------> server.js, inside server.js we've middlewares, one of middlewares will call-------->
+
+router.js, router there will know which controller and method inside controller it should called-------->
+
+controller will do some checks and then call the repository--------> repository will borrow a connection
+
+from dbConnection--------> and then sequelize in dbConnection will make a call to the database on 
+behalf of repository;

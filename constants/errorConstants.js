@@ -1,0 +1,1 @@
+exports.MISSING_CATEGORY= `The requested category ID doesn't exit in the system!`;

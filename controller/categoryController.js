@@ -1,4 +1,6 @@
 const { MISSING_CATEGORY } = require("../constants/errorConstants");
+const { CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
+
 const categoryRepository= require("../dao/repository/category.repository");
 
 const createCategory= (req, res)=>{
@@ -17,7 +19,7 @@ const createCategory= (req, res)=>{
         console.log(`Category name: ${result.name} was created successfully!`);
         res.status(201).send(result);
     }).catch(error=>{   // error handling incase of creation of same category
-        if(error.name==='SequelizeUniqueConstraintError'){   //if error is this, then
+        if(error.name=== CONSTRAINT_VALIDATION_ERROR){   //if error is this, then
             console.log(error.errors[0]);
             res.status(400).send({                         // send back the response to client
                 message: `${body.name} already exists!` 

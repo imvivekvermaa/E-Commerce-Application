@@ -24,6 +24,6 @@ app.listen(serverConfig.PORT,serverConfig.HOST, ()=>{
 
     // initialize the database if enviorment is development.
     if(serverConfig.ENV === 'dev'){
-        initializeTables(false);
-    }
+        initializeTables(false);        //Passing forceCreation as true will delete the previous tables and data
+    }                                   // and  will make the new tables everytime we hit the server.js again
 })();

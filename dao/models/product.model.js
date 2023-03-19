@@ -9,7 +9,7 @@
 
 const { DataTypes, Sequelize } = require("sequelize");
 
-exports.deficeProducts= (conn, Sequelize)=>{
+exports.defineProducts= (conn, Sequelize)=>{
     const Products= conn.define('product',{
         id:{
             type: DataTypes.INTEGER,
@@ -23,19 +23,19 @@ exports.deficeProducts= (conn, Sequelize)=>{
         },
         description: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: true //for now
         },
-        image: {
+        imageUrl: {
             type: DataTypes.STRING,
             allowNull: true             //for now we can skip having images
         },
         price: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            defaultValue: 0
+            defaultValue: 0 // that's how we can put a default value incase we don't provide it in the first place!!
         },
         categoryID: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     });

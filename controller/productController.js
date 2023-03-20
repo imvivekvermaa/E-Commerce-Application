@@ -1,6 +1,7 @@
 const { CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 const { FOREIGN_KEY_CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 const productRepository = require("../dao/repository/product.repository");
+const Op = require("sequelize")
 
 const createProduct= (req, res) => {
     // 1. Name should not be null
@@ -58,6 +59,70 @@ const createProduct= (req, res) => {
     })
 }
 
+// 1. fetch product by name
+const fetchProductByName= (req, res) => {
+    productRepository.fetchAllProductsByCriteria({
+        where :{
+            name: req.params.name
+        }
+    }).then(result => {
+        res.status(200).send(result)
+})
+    .catch(error => {
+        res.status(500).send({
+            message: `Error Occured in the processing request, Please try again in sometimes`
+        })
+    })
+}
+// 2. fetch product by category id
+const fetchPorductsByCategory= (req, res) => {
+    let criteria;
+    criteria= {
+            where:{
+                categoryID: req.params.categoryID
+            }
+        }
+    // const minPrice = req.query.minPrice;
+    // const maxPrice = req.query.maxPrice;
+    // console.log(minPrice, maxPrice)
+    // if(minPrice && maxPrice){
+    //     criteria = {
+    //         where: {
+    //             [Op.and]: [
+    //                 {
+    //                     price: {
+    //                         [Op.gte]:minPrice,
+    //                         [Op.lte]:maxPrice,
+    //                     }
+    //                 },
+    //                 {
+    //                 categoryID: req.params.categoryID
+    //                 }
+    //             ]
+    //         }
+    //     }
+    // }else{
+    //     criteria= {
+    //         where:{
+    //             categoryID: req.params.categoryID
+    //         }
+    //     }
+    // }
+    productRepository.fetchAllProductsByCriteria(criteria)
+    .then(result => {
+        console.log(result)
+        res.status(200).send(result)
+    })
+    .catch(error => {
+        console.log(error.message)
+        res.status(500).send({
+            message: `Error Occured in the processing request, Please try again in sometimes`
+        })
+    })
+}
+
 module.exports= {
-    createProduct: createProduct
+    createProduct: createProduct,
+    fetchProductByName : fetchProductByName,
+    fetchPorductsByCategory : fetchPorductsByCategory
 }

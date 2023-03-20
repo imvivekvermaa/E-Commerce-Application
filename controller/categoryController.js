@@ -3,7 +3,7 @@ const { CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 
 const categoryRepository= require("../dao/repository/category.repository");
 
-const addCategory= (req, res)=>{
+const createCategory= (req, res)=>{
     const body= req.body;
     // name-> nonNull, description-> may or may not be present.
     if(!body.name){
@@ -12,7 +12,7 @@ const addCategory= (req, res)=>{
         })
         return
     }
-    categoryRepository.addCategory({
+    categoryRepository.createCategory({
         name: body.name,
         description: body.description
     }).then(result => {
@@ -85,7 +85,7 @@ const fetchCategoryByName = (req, res) => {
 
 
 module.exports= {
-    create: addCategory,
+    create: createCategory,
     fetchAllCategories: fetchAllCategories,
     fetchCategoryByID: fetchCategoryByID,
     fetchCategoryByName : fetchCategoryByName

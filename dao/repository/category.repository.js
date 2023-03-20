@@ -32,11 +32,16 @@ const fetchAllCategories= async() => {
     return await Category.findAll()
 };
 
+const fetchCategoriesByCriteria= async (criteria) => {
+    return await Category.findAll(criteria)
+}
+
 module.exports={
     createCategoryTable: createCategoryTable,
     crateCategory:save,
     fetchCategoryByID: fetchCategoryByID,
-    fetchAllCategories: fetchAllCategories
+    fetchAllCategories: fetchAllCategories,
+    fetchCategoriesByCriteria : fetchCategoriesByCriteria
 
 }
 

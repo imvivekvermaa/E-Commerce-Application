@@ -48,25 +48,15 @@ const fetchAllProducts= async() => {
 };
 
 // TODO
-const createMultipleProducts= async()=> {
-
-}
-
-// TODO
-const fetchAllProductsByCategoryID= async()=> {
-
-}
-
-// TODO
-const fetchProductsByName= async ()=> {
-
+const fetchAllProductsByCriteria= async (criteria) =>{
+    return await Product.findAll(criteria);
 }
 
 module.exports={
     createProductTable: createProductTable,
     createProduct: createProduct,
     fetchAllProducts: fetchAllProducts,
-    fetchAllProductsByCategoryID: fetchAllProductsByCategoryID,
     fetchProductByID: fetchProductByID,
+    fetchAllProductsByCriteria : fetchAllProductsByCriteria,
     // fetchProductsByName: fetchProductsByName
 }

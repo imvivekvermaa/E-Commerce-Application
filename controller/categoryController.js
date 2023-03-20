@@ -3,7 +3,7 @@ const { CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 
 const categoryRepository= require("../dao/repository/category.repository");
 
-const createCategory= (req, res)=>{
+const addCategory= (req, res)=>{
     const body= req.body;
     // name-> nonNull, description-> may or may not be present.
     if(!body.name){
@@ -12,7 +12,7 @@ const createCategory= (req, res)=>{
         })
         return
     }
-    categoryRepository.crateCategory({
+    categoryRepository.addCategory({
         name: body.name,
         description: body.description
     }).then(result => {
@@ -65,10 +65,28 @@ const fetchCategoryByID= (req,res) =>{
     })
 }
 
+const fetchCategoryByName = (req, res) => {
+    categoryRepository.fetchCategoriesByCriteria({
+        where: {
+            name: req.params.name
+        }
+    }).then(result => {
+        res.status(200).send(result)
+        return;
+    })
+    .catch(error => {
+        // 1. Name doesn't exist- client error
+        console.log(error)
+        res.status(500).send({
+            message: `Error occured in processing the request. Please try again in sometime!`
+        })
+    })
+};
 
 
 module.exports= {
-    create: createCategory,
+    create: addCategory,
     fetchAllCategories: fetchAllCategories,
-    fetchCategoryByID: fetchCategoryByID
+    fetchCategoryByID: fetchCategoryByID,
+    fetchCategoryByName : fetchCategoryByName
 }

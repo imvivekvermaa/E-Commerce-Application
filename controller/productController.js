@@ -1,7 +1,7 @@
+const { Op } = require("sequelize");
 const { CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 const { FOREIGN_KEY_CONSTRAINT_VALIDATION_ERROR } = require("../constants/errorConstants");
 const productRepository = require("../dao/repository/product.repository");
-const Op = require("sequelize")
 
 const createProduct= (req, res) => {
     // 1. Name should not be null
@@ -75,43 +75,38 @@ const fetchProductByName= (req, res) => {
     })
 }
 // 2. fetch product by category id
-const fetchPorductsByCategory= (req, res) => {
+const fetchPorductsByCategoryAndPriceFilter= (req, res) => {
     let criteria;
-    criteria= {
+    const minPrice = req.query.minPrice;
+    const maxPrice = req.query.maxPrice;
+    console.log(minPrice, maxPrice)
+    if(minPrice && maxPrice){
+        criteria = {
+            where: {
+                [Op.and]: [
+                    {
+                        price: {
+                                [Op.gte]:minPrice,
+                                [Op.lte]:maxPrice,
+                            }
+                    },
+                    {
+                        categoryID: req.params.categoryID
+                        }
+                ]
+            }
+        }
+    }else{
+        criteria= {
             where:{
                 categoryID: req.params.categoryID
             }
         }
-    // const minPrice = req.query.minPrice;
-    // const maxPrice = req.query.maxPrice;
-    // console.log(minPrice, maxPrice)
-    // if(minPrice && maxPrice){
-    //     criteria = {
-    //         where: {
-    //             [Op.and]: [
-    //                 {
-    //                     price: {
-    //                         [Op.gte]:minPrice,
-    //                         [Op.lte]:maxPrice,
-    //                     }
-    //                 },
-    //                 {
-    //                 categoryID: req.params.categoryID
-    //                 }
-    //             ]
-    //         }
-    //     }
-    // }else{
-    //     criteria= {
-    //         where:{
-    //             categoryID: req.params.categoryID
-    //         }
-    //     }
-    // }
+    }
     productRepository.fetchAllProductsByCriteria(criteria)
     .then(result => {
         console.log(result)
-        res.status(200).send(result)
+    res.status(200).send(result)
     })
     .catch(error => {
         console.log(error.message)
@@ -121,8 +116,38 @@ const fetchPorductsByCategory= (req, res) => {
     })
 }
 
+const searchProductsBySameNames = (req, res) => {
+    const keyword= req.query.search;
+    const keywords= keyword.split(" ");
+    const likeKeywords=[]
+    const criteria= {};
+    for(let i=0; i< keywords.length; i++){
+        likeKeywords[i]={
+            name : {
+                [Op.like]: `%${keywords[i]}%`
+            }
+        }
+    }
+    criteria.where= {
+        [Op.and]: likeKeywords
+    }
+    console.log(criteria);
+
+    productRepository.fetchAllProductsByCriteria(criteria)
+    .then(reseult => {
+        res.status(200).send(reseult)
+    })
+    .catch(error => {
+        console.log(error)
+        res.status(500).send({
+            message: 'Error occured in processing the request. Please try again later!'
+        })
+    })
+}
+
 module.exports= {
     createProduct: createProduct,
     fetchProductByName : fetchProductByName,
-    fetchPorductsByCategory : fetchPorductsByCategory
+    fetchPorductsByCategoryAndPriceFilter : fetchPorductsByCategoryAndPriceFilter,
+    searchProductsBySameNames: searchProductsBySameNames
 }

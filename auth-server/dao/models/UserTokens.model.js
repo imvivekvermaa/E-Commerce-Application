@@ -18,10 +18,10 @@ exports.CreateUserToken= (conn, Sequelize) => {
             unique: true,
             allowNull: false
         },
-        // expiresAt: {
-        //     type: DataTypes.TIMESTAMP,
-        //     allowNull: false
-        // }
+        expiresAt: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
     });
     
     return UserToken;

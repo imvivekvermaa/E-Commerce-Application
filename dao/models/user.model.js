@@ -28,6 +28,11 @@ exports.defeineUser = (dbConnection, Sequelize) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        permission: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'NORMAL_USER'
         }
     })
     return User;

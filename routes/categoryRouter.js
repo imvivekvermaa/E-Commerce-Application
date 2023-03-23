@@ -3,7 +3,7 @@ const express= require('express');
 const router= express.Router();
 
 const categoryController= require("../controller/categoryController");
-const { validateAddOrUpdateCategoryRequest } = require('../requestValidator/validations.middleware/requestValidator');
+const { validateAddOrUpdateCategoryRequest } = require('../middlewares/validations.middleware/requestValidator');
 
 router.post("/create",validateAddOrUpdateCategoryRequest, categoryController.create);  // This is a "post" request route.   // A bad request validator has been added.
 router.get("/categories", categoryController.fetchAllCategories);   //This has to be a "get" request route. 

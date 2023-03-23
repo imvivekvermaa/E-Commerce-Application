@@ -9,7 +9,7 @@ const addUserToken = async (userToken) => {
     return await UserToken.create({
         username: userToken.username,
         refreshToken: userToken.refreshToken,
-        // expiresAt: Date.now()+ (24*60*60*1000*10) //for temp basis, just added 10 more days in current day
+        expiresAt: Date.now()+ (24*60*60*1000*10) //for temp basis, just added 10 more days in current day
         }
     );
 }

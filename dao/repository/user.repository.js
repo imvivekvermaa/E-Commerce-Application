@@ -16,7 +16,8 @@ const registerUser= async (user) => {
         lastName: user.lastName,
         password: user.password,
         emailId: user.emailId,
-        phoneNumber: user.phoneNumber
+        phoneNumber: user.phoneNumber,
+        permission: user.permission
     });
     return {
         username: dbUser.username,

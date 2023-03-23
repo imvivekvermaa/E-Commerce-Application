@@ -15,7 +15,7 @@ const { defineProducts } = require("../models/product.model");
 
 const dbConnection = require("./dbConnection");
 
-const Product= defineProducts(dbConnection.connection, dbConnection.DataTypes);
+exports.Product= defineProducts(dbConnection.connection, dbConnection.DataTypes);
 
 // Since we've the foreign key relationship, we need the other table also.
 

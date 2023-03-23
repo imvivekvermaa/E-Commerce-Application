@@ -1,10 +1,11 @@
 const express= require("express");
 const productController = require("../controller/productController");
-const { validateAddOrUpdateProductRequest } = require("../requestValidator/validations.middleware/requestValidator");
+const { validateUserPermission } = require("../middlewares/auth.middleware/authorization.middleware");
+const { validateAddOrUpdateProductRequest } = require("../middlewares/validations.middleware/requestValidator");
 const router= express.Router();
 
 
-router.post("/create", validateAddOrUpdateProductRequest, productController.createProduct);
+router.post("/create",validateAddOrUpdateProductRequest, productController.createProduct);
 router.get("/productByName/:name",productController.fetchProductByName);
 router.get("/productByCategoryId/:categoryID",productController.fetchPorductsByCategoryAndPriceFilter);
 router.get("/search",productController.searchProductsBySameNames);

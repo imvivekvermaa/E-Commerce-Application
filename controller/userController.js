@@ -38,13 +38,15 @@ const login= (req, res) => {
             //     phoneNumber: req.body.phoneNumber
             // }]
         }
-    }).then(user => {
-        return authenticateUser(req.body.password, user.password);
+    }).then(async (user) => {
+        const isValidUser = await authenticateUser(req.body.password, user.password)
+        return isValidUser? user : undefined
     }).then(result => {
         if(!result){
             res.status(401).send("Invalid Usernam or Password");
             return;
         }
+        console.log(result)
         res.status(200).send({
             message: `Login Successful!`
         })
